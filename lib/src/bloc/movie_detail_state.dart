@@ -10,9 +10,9 @@ class LoadingMovieDetail extends MovieDetailState {}
 class SuccessMovieDetail extends MovieDetailState {
   final MovieDetail movieDetail;
   final List<Video> videos;
-  final List<Review> reviews;
+  // final List<Review> reviews;
 
-  SuccessMovieDetail(this.movieDetail, this.videos, this.reviews);
+  SuccessMovieDetail(this.movieDetail, this.videos);
 }
 
 class ErrorMovieDetail extends MovieDetailState {}

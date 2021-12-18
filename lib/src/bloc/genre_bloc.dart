@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:meta/meta.dart';
 import 'package:movie_app/src/model/genre.dart';
 import 'package:movie_app/src/repository/movie_repository.dart';
 

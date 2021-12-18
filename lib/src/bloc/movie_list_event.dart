@@ -9,3 +9,11 @@ class GetMovieListByGenre extends MovieListEvent {
 
   GetMovieListByGenre(this.genreId, this.page);
 }
+
+class LoadMoreMovieListByGenre extends MovieListEvent {
+  final int genreId;
+  final int page;
+  final List<Movie> movies;
+
+  LoadMoreMovieListByGenre(this.genreId, this.page, this.movies);
+}

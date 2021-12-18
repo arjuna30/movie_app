@@ -8,3 +8,12 @@ class GetMovieDetail extends MovieDetailEvent {
 
   GetMovieDetail(this.movieId);
 }
+
+// class LoadMoreReview extends MovieDetailEvent {
+//   final int page;
+//   final MovieDetail movieDetail;
+//   final List<Video> videos;
+//   final List<Review> reviews;
+//
+//   LoadMoreReview(this.page, this.movieDetail, this.videos, this.reviews);
+// }

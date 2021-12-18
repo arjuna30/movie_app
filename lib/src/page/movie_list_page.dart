@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:movie_app/src/bloc/movie_list_bloc.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:movie_app/src/model/movie.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 class MovieListPage extends StatelessWidget {
   static final route =
@@ -30,6 +31,8 @@ class _BodyMovieListPage extends StatefulWidget {
 
 class _BodyMovieListPageState extends State<_BodyMovieListPage> {
   final int genreId = int.parse(Modular.args.params['genreId']);
+  final refreshController = RefreshController();
+  int page = 1;
 
   @override
   void initState() {
@@ -46,28 +49,63 @@ class _BodyMovieListPageState extends State<_BodyMovieListPage> {
             return const Center(child: CircularProgressIndicator());
           }
           if (state is ErrorMovieListState) {
-            return const Center(child: Text('Something wrong'));
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Something wrong'),
+                SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () => context
+                      .read<MovieListBloc>()
+                      .add(GetMovieListByGenre(genreId, 1)),
+                  child: const Icon(
+                    Icons.refresh,
+                    size: 35,
+                  ),
+                )
+              ],
+            ));
           }
           if (state is SuccessMovieListState) {
             final movies = state.movies;
-            return GridView.builder(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                shrinkWrap: true,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 1,
-                    mainAxisSpacing: 25,
-                    mainAxisExtent: 290,
-                    crossAxisSpacing: 25,
-                    crossAxisCount: 2),
-                itemCount: movies.length,
-                itemBuilder: (context, index) {
-                  final movie = movies[index];
-                  return _MovieCard(
-                    movie: movie,
-                    onTap: () => Modular.to.pushNamed('/$genreId/${movie.id}/'),
-                  );
-                });
+            return SmartRefresher(
+              controller: refreshController,
+              enablePullUp: true,
+              onRefresh: () {
+                page = 1;
+                context
+                    .read<MovieListBloc>()
+                    .add(GetMovieListByGenre(genreId, page));
+                refreshController.refreshCompleted();
+              },
+              onLoading: () {
+                page += 1;
+                context
+                    .read<MovieListBloc>()
+                    .add(LoadMoreMovieListByGenre(genreId, page, movies));
+                refreshController.loadComplete();
+              },
+              child: GridView.builder(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      childAspectRatio: 1,
+                      mainAxisSpacing: 25,
+                      mainAxisExtent: 290,
+                      crossAxisSpacing: 25,
+                      crossAxisCount: 2),
+                  itemCount: movies.length,
+                  itemBuilder: (context, index) {
+                    final movie = movies[index];
+                    return _MovieCard(
+                      movie: movie,
+                      onTap: () =>
+                          Modular.to.pushNamed('/$genreId/${movie.id}/'),
+                    );
+                  }),
+            );
           }
           return const SizedBox.shrink();
         },
@@ -88,6 +126,7 @@ class _MovieCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final releaseDate = movie.releaseDate;
     return GestureDetector(
       onTap: onTap,
       child: SizedBox(
@@ -130,11 +169,13 @@ class _MovieCard extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
-                        intl.DateFormat.yMMMd().format(movie.releaseDate),
-                        style:
-                            const TextStyle(fontSize: 12, color: Colors.black),
-                      ),
+                      if (releaseDate != null && releaseDate.isNotEmpty)
+                        Text(
+                          intl.DateFormat.yMMMd()
+                              .format(DateTime.parse(releaseDate)),
+                          style: const TextStyle(
+                              fontSize: 12, color: Colors.black),
+                        ),
                       Row(
                         children: [
                           const Text(
