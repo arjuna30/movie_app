@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:json_annotation/json_annotation.dart';
 import 'package:movie_app/src/model/genre.dart';
 
 part 'movie.freezed.dart';
@@ -11,7 +10,7 @@ class Movie with _$Movie {
     @JsonKey(name: 'poster_path') String? posterPath,
     required bool adult,
     required String overview,
-    @JsonKey(name: 'release_date') required DateTime releaseDate,
+    @JsonKey(name: 'release_date') String? releaseDate,
     @JsonKey(name: 'genre_ids') required List<int> genreIds,
     required int id,
     @JsonKey(name: 'original_title') required String originalTitle,
@@ -45,7 +44,7 @@ class MovieDetail with _$MovieDetail {
         required List<_ProductionCompany> productionCompanies,
     @JsonKey(name: 'production_countries')
         required List<_ProductionCountry> productionCountries,
-    @JsonKey(name: 'release_date') required DateTime releaseDate,
+    @JsonKey(name: 'release_date') String? releaseDate,
     required int revenue,
     int? runtime,
     required String status,

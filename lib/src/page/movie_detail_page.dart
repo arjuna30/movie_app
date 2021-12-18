@@ -5,9 +5,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:intl/intl.dart';
 import 'package:movie_app/src/bloc/movie_detail_bloc.dart';
+import 'package:movie_app/src/bloc/review_bloc.dart';
 import 'package:movie_app/src/model/movie.dart';
 import 'package:movie_app/src/model/review.dart';
 import 'package:movie_app/src/model/video.dart';
+import 'package:pull_to_refresh/pull_to_refresh.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class MovieDetailPage extends StatelessWidget {
@@ -39,6 +41,7 @@ class _BodyMovieDetailPageState extends State<_BodyMovieDetailPage>
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
     context.read<MovieDetailBloc>().add(GetMovieDetail(movieId));
+    context.read<ReviewBloc>().add(GetReview(movieId));
   }
 
   @override
@@ -49,12 +52,29 @@ class _BodyMovieDetailPageState extends State<_BodyMovieDetailPage>
           return const Center(child: CircularProgressIndicator());
         }
         if (state is ErrorMovieDetail) {
-          return const Center(child: Text('Something wrong'));
+          return Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Something wrong'),
+              SizedBox(height: 10),
+              GestureDetector(
+                onTap: () => context
+                    .read<MovieDetailBloc>()
+                    .add(GetMovieDetail(movieId)),
+                child: Container(
+                  child: Icon(
+                    Icons.refresh,
+                    size: 35,
+                  ),
+                ),
+              )
+            ],
+          ));
         }
         if (state is SuccessMovieDetail) {
           final movieDetail = state.movieDetail;
           final videos = state.videos;
-          final reviews = state.reviews;
           String name = '';
           for (final genre in movieDetail.genres) {
             name += '/${genre.name}';
@@ -141,7 +161,7 @@ class _BodyMovieDetailPageState extends State<_BodyMovieDetailPage>
                               children: [
                                 _DescriptionTab(
                                     movieDetail: movieDetail, videos: videos),
-                                _ReviewTab(reviews: reviews),
+                                _ReviewTab(movieId: movieId),
                               ],
                             ),
                           ),
@@ -224,6 +244,11 @@ class _DescriptionTab extends StatelessWidget {
           if (videos.isNotEmpty)
             YoutubePlayer(
               controller: youtubeController,
+              bottomActions: [
+                CurrentPosition(),
+                ProgressBar(isExpanded: true),
+                RemainingDuration(),
+              ],
             ),
         ],
       ),
@@ -234,26 +259,71 @@ class _DescriptionTab extends StatelessWidget {
 class _ReviewTab extends StatelessWidget {
   const _ReviewTab({
     Key? key,
-    required this.reviews,
+    required this.movieId,
   }) : super(key: key);
 
-  final List<Review> reviews;
+  final int movieId;
 
   @override
   Widget build(BuildContext context) {
-    if (reviews.isEmpty) {
-      return const Padding(
-        padding: EdgeInsets.only(top: 60.0),
-        child: Text(
-          'No Review.',
-          textAlign: TextAlign.center,
-        ),
-      );
-    }
-    return ListView.builder(
-      itemCount: reviews.length,
-      itemBuilder: (context, index) {
-        return _ReviewCard(review: reviews[index]);
+    final _refreshController = RefreshController();
+    int page = 1;
+
+    return BlocBuilder<ReviewBloc, ReviewState>(
+      builder: (context, state) {
+        if (state is LoadingReview) {
+          return const Center(child: CircularProgressIndicator());
+        }
+        if (state is ErrorReview) {
+          return Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Something wrong'),
+              SizedBox(height: 10),
+              GestureDetector(
+                onTap: () => context.read<ReviewBloc>().add(GetReview(movieId)),
+                child: Container(
+                  child: Icon(
+                    Icons.refresh,
+                    size: 35,
+                  ),
+                ),
+              )
+            ],
+          ));
+        }
+        if (state is SuccessReview) {
+          final reviews = state.reviews;
+          if (reviews.isEmpty) {
+            return const Padding(
+              padding: EdgeInsets.only(top: 60.0),
+              child: Text(
+                'No Review.',
+                textAlign: TextAlign.center,
+              ),
+            );
+          }
+          return SmartRefresher(
+            controller: _refreshController,
+            enablePullDown: false,
+            enablePullUp: true,
+            onLoading: () {
+              page += 1;
+              context
+                  .read<ReviewBloc>()
+                  .add(LoadMoreReview(movieId, page, reviews));
+              _refreshController.loadComplete();
+            },
+            child: ListView.builder(
+              itemCount: reviews.length,
+              itemBuilder: (context, index) {
+                return _ReviewCard(review: reviews[index]);
+              },
+            ),
+          );
+        }
+        return const SizedBox.shrink();
       },
     );
   }

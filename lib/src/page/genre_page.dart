@@ -26,6 +26,28 @@ class _BodyGenrePage extends StatelessWidget {
     return SafeArea(
       child: BlocBuilder<GenreBloc, GenreState>(
         builder: (context, state) {
+          if (state is LoadingGenreState) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (state is ErrorGenreState) {
+            return Center(
+                child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Something wrong'),
+                SizedBox(height: 10),
+                GestureDetector(
+                  onTap: () => context.read<GenreBloc>().add(GetGenreEvent()),
+                  child: Container(
+                    child: Icon(
+                      Icons.refresh,
+                      size: 35,
+                    ),
+                  ),
+                )
+              ],
+            ));
+          }
           if (state is SuccessGenreState) {
             final genres = state.genres;
             return Padding(
@@ -65,7 +87,7 @@ class _BodyGenrePage extends StatelessWidget {
               ),
             );
           }
-          return SizedBox.shrink();
+          return const SizedBox.shrink();
         },
       ),
     );

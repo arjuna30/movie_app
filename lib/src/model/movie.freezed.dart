@@ -25,7 +25,7 @@ class _$MovieTearOff {
       {@JsonKey(name: 'poster_path') String? posterPath,
       required bool adult,
       required String overview,
-      @JsonKey(name: 'release_date') required DateTime releaseDate,
+      @JsonKey(name: 'release_date') String? releaseDate,
       @JsonKey(name: 'genre_ids') required List<int> genreIds,
       required int id,
       @JsonKey(name: 'original_title') required String originalTitle,
@@ -67,7 +67,7 @@ mixin _$Movie {
   bool get adult => throw _privateConstructorUsedError;
   String get overview => throw _privateConstructorUsedError;
   @JsonKey(name: 'release_date')
-  DateTime get releaseDate => throw _privateConstructorUsedError;
+  String? get releaseDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'genre_ids')
   List<int> get genreIds => throw _privateConstructorUsedError;
   int get id => throw _privateConstructorUsedError;
@@ -97,7 +97,7 @@ abstract class $MovieCopyWith<$Res> {
       {@JsonKey(name: 'poster_path') String? posterPath,
       bool adult,
       String overview,
-      @JsonKey(name: 'release_date') DateTime releaseDate,
+      @JsonKey(name: 'release_date') String? releaseDate,
       @JsonKey(name: 'genre_ids') List<int> genreIds,
       int id,
       @JsonKey(name: 'original_title') String originalTitle,
@@ -149,7 +149,7 @@ class _$MovieCopyWithImpl<$Res> implements $MovieCopyWith<$Res> {
       releaseDate: releaseDate == freezed
           ? _value.releaseDate
           : releaseDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String?,
       genreIds: genreIds == freezed
           ? _value.genreIds
           : genreIds // ignore: cast_nullable_to_non_nullable
@@ -199,7 +199,7 @@ abstract class _$MovieCopyWith<$Res> implements $MovieCopyWith<$Res> {
       {@JsonKey(name: 'poster_path') String? posterPath,
       bool adult,
       String overview,
-      @JsonKey(name: 'release_date') DateTime releaseDate,
+      @JsonKey(name: 'release_date') String? releaseDate,
       @JsonKey(name: 'genre_ids') List<int> genreIds,
       int id,
       @JsonKey(name: 'original_title') String originalTitle,
@@ -252,7 +252,7 @@ class __$MovieCopyWithImpl<$Res> extends _$MovieCopyWithImpl<$Res>
       releaseDate: releaseDate == freezed
           ? _value.releaseDate
           : releaseDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String?,
       genreIds: genreIds == freezed
           ? _value.genreIds
           : genreIds // ignore: cast_nullable_to_non_nullable
@@ -300,7 +300,7 @@ class _$_Movie implements _Movie {
       {@JsonKey(name: 'poster_path') this.posterPath,
       required this.adult,
       required this.overview,
-      @JsonKey(name: 'release_date') required this.releaseDate,
+      @JsonKey(name: 'release_date') this.releaseDate,
       @JsonKey(name: 'genre_ids') required this.genreIds,
       required this.id,
       @JsonKey(name: 'original_title') required this.originalTitle,
@@ -323,7 +323,7 @@ class _$_Movie implements _Movie {
   final String overview;
   @override
   @JsonKey(name: 'release_date')
-  final DateTime releaseDate;
+  final String? releaseDate;
   @override
   @JsonKey(name: 'genre_ids')
   final List<int> genreIds;
@@ -414,7 +414,7 @@ abstract class _Movie implements Movie {
       {@JsonKey(name: 'poster_path') String? posterPath,
       required bool adult,
       required String overview,
-      @JsonKey(name: 'release_date') required DateTime releaseDate,
+      @JsonKey(name: 'release_date') String? releaseDate,
       @JsonKey(name: 'genre_ids') required List<int> genreIds,
       required int id,
       @JsonKey(name: 'original_title') required String originalTitle,
@@ -436,7 +436,7 @@ abstract class _Movie implements Movie {
   String get overview;
   @override
   @JsonKey(name: 'release_date')
-  DateTime get releaseDate;
+  String? get releaseDate;
   @override
   @JsonKey(name: 'genre_ids')
   List<int> get genreIds;
@@ -497,7 +497,7 @@ class _$MovieDetailTearOff {
       @JsonKey(name: 'production_countries')
           required List<_ProductionCountry> productionCountries,
       @JsonKey(name: 'release_date')
-          required DateTime releaseDate,
+          String? releaseDate,
       required int revenue,
       int? runtime,
       required String status,
@@ -569,7 +569,7 @@ mixin _$MovieDetail {
   List<_ProductionCountry> get productionCountries =>
       throw _privateConstructorUsedError;
   @JsonKey(name: 'release_date')
-  DateTime get releaseDate => throw _privateConstructorUsedError;
+  String? get releaseDate => throw _privateConstructorUsedError;
   int get revenue => throw _privateConstructorUsedError;
   int? get runtime => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
@@ -615,7 +615,7 @@ abstract class $MovieDetailCopyWith<$Res> {
       @JsonKey(name: 'production_countries')
           List<_ProductionCountry> productionCountries,
       @JsonKey(name: 'release_date')
-          DateTime releaseDate,
+          String? releaseDate,
       int revenue,
       int? runtime,
       String status,
@@ -722,7 +722,7 @@ class _$MovieDetailCopyWithImpl<$Res> implements $MovieDetailCopyWith<$Res> {
       releaseDate: releaseDate == freezed
           ? _value.releaseDate
           : releaseDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String?,
       revenue: revenue == freezed
           ? _value.revenue
           : revenue // ignore: cast_nullable_to_non_nullable
@@ -789,7 +789,7 @@ abstract class _$MovieDetailCopyWith<$Res>
       @JsonKey(name: 'production_countries')
           List<_ProductionCountry> productionCountries,
       @JsonKey(name: 'release_date')
-          DateTime releaseDate,
+          String? releaseDate,
       int revenue,
       int? runtime,
       String status,
@@ -898,7 +898,7 @@ class __$MovieDetailCopyWithImpl<$Res> extends _$MovieDetailCopyWithImpl<$Res>
       releaseDate: releaseDate == freezed
           ? _value.releaseDate
           : releaseDate // ignore: cast_nullable_to_non_nullable
-              as DateTime,
+              as String?,
       revenue: revenue == freezed
           ? _value.revenue
           : revenue // ignore: cast_nullable_to_non_nullable
@@ -953,7 +953,7 @@ class _$_MovieDetail implements _MovieDetail {
       @JsonKey(name: 'poster_path') this.posterPath,
       @JsonKey(name: 'production_companies') required this.productionCompanies,
       @JsonKey(name: 'production_countries') required this.productionCountries,
-      @JsonKey(name: 'release_date') required this.releaseDate,
+      @JsonKey(name: 'release_date') this.releaseDate,
       required this.revenue,
       this.runtime,
       required this.status,
@@ -1003,7 +1003,7 @@ class _$_MovieDetail implements _MovieDetail {
   final List<_ProductionCountry> productionCountries;
   @override
   @JsonKey(name: 'release_date')
-  final DateTime releaseDate;
+  final String? releaseDate;
   @override
   final int revenue;
   @override
@@ -1130,7 +1130,7 @@ abstract class _MovieDetail implements MovieDetail {
       @JsonKey(name: 'production_countries')
           required List<_ProductionCountry> productionCountries,
       @JsonKey(name: 'release_date')
-          required DateTime releaseDate,
+          String? releaseDate,
       required int revenue,
       int? runtime,
       required String status,
@@ -1182,7 +1182,7 @@ abstract class _MovieDetail implements MovieDetail {
   List<_ProductionCountry> get productionCountries;
   @override
   @JsonKey(name: 'release_date')
-  DateTime get releaseDate;
+  String? get releaseDate;
   @override
   int get revenue;
   @override

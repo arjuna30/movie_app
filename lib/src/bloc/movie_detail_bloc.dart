@@ -3,10 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:http/http.dart';
-import 'package:meta/meta.dart';
 import 'package:movie_app/src/model/movie.dart';
-import 'package:movie_app/src/model/review.dart';
 import 'package:movie_app/src/model/video.dart';
 import 'package:movie_app/src/repository/movie_repository.dart';
 
@@ -28,8 +25,7 @@ class MovieDetailBloc extends Bloc<MovieDetailEvent, MovieDetailState> {
       emit(LoadingMovieDetail());
       final movieDetail = await _movieRepository.getMovieDetail(movieId);
       final videoTrailers = await _movieRepository.getVideoTrailer(movieId);
-      final reviews = await _movieRepository.getReviews(movieId);
-      emit(SuccessMovieDetail(movieDetail, videoTrailers, reviews));
+      emit(SuccessMovieDetail(movieDetail, videoTrailers));
     } catch (_) {
       emit(ErrorMovieDetail());
     }
