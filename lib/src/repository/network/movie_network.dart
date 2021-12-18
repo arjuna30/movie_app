@@ -1,11 +1,5 @@
-import 'dart:convert';
-
 import 'package:http/http.dart' as http;
 import 'package:movie_app/src/const.dart';
-import 'package:movie_app/src/model/genre.dart';
-import 'package:movie_app/src/model/movie.dart';
-import 'package:movie_app/src/model/review.dart';
-import 'package:movie_app/src/model/video.dart';
 
 class MovieNetwork {
   final _baseUrl = 'https://api.themoviedb.org/3';

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:movie_app/src/bloc/genre_bloc.dart';
-import 'package:movie_app/src/bloc/movie_list_bloc.dart';
 
 class GenrePage extends StatelessWidget {
   static final route = ChildRoute(Modular.initialRoute,
@@ -34,16 +33,11 @@ class _BodyGenrePage extends StatelessWidget {
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Something wrong'),
-                SizedBox(height: 10),
+                const Text('Something wrong'),
+                const SizedBox(height: 10),
                 GestureDetector(
                   onTap: () => context.read<GenreBloc>().add(GetGenreEvent()),
-                  child: Container(
-                    child: Icon(
-                      Icons.refresh,
-                      size: 35,
-                    ),
-                  ),
+                  child: const Icon(Icons.refresh, size: 35),
                 )
               ],
             ));

@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -56,18 +55,13 @@ class _BodyMovieDetailPageState extends State<_BodyMovieDetailPage>
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Something wrong'),
-              SizedBox(height: 10),
+              const Text('Something wrong'),
+              const SizedBox(height: 10),
               GestureDetector(
                 onTap: () => context
                     .read<MovieDetailBloc>()
                     .add(GetMovieDetail(movieId)),
-                child: Container(
-                  child: Icon(
-                    Icons.refresh,
-                    size: 35,
-                  ),
-                ),
+                child: const Icon(Icons.refresh, size: 35),
               )
             ],
           ));
@@ -98,7 +92,7 @@ class _BodyMovieDetailPageState extends State<_BodyMovieDetailPage>
                   itemExtent: MediaQuery.of(context).size.height * 0.95,
                   delegate: SliverChildListDelegate([
                     Padding(
-                      padding: EdgeInsets.all(20),
+                      padding: const EdgeInsets.all(20),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -112,9 +106,8 @@ class _BodyMovieDetailPageState extends State<_BodyMovieDetailPage>
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
                                 ),
                               ),
                               const SizedBox(width: 25),
@@ -154,7 +147,7 @@ class _BodyMovieDetailPageState extends State<_BodyMovieDetailPage>
                               Tab(text: 'Review'),
                             ],
                           ),
-                          Container(
+                          SizedBox(
                             height: MediaQuery.of(context).size.height * 0.7,
                             child: TabBarView(
                               controller: _tabController,
@@ -169,18 +162,6 @@ class _BodyMovieDetailPageState extends State<_BodyMovieDetailPage>
                       ),
                     ),
                   ])),
-              // SliverFillRemaining(
-              //   child: TabBarView(
-              //     controller: _tabController,
-              //     children: [
-              //       _DescriptionTab(
-              //         movieDetail: movieDetail,
-              //         videos: videos,
-              //       ),
-              //       Text('kedua')
-              //     ],
-              //   ),
-              // )
             ],
           );
         }
@@ -232,7 +213,7 @@ class _DescriptionTab extends StatelessWidget {
               '"$tagline"',
               style: const TextStyle(fontStyle: FontStyle.italic),
             ),
-          if (tagline != null && tagline.isNotEmpty) SizedBox(height: 8),
+          if (tagline != null && tagline.isNotEmpty) const SizedBox(height: 8),
           Text(overview ?? '-'),
           const SizedBox(height: 30),
           if (videos.isNotEmpty)
@@ -279,16 +260,11 @@ class _ReviewTab extends StatelessWidget {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Something wrong'),
-              SizedBox(height: 10),
+              const Text('Something wrong'),
+              const SizedBox(height: 10),
               GestureDetector(
                 onTap: () => context.read<ReviewBloc>().add(GetReview(movieId)),
-                child: Container(
-                  child: Icon(
-                    Icons.refresh,
-                    size: 35,
-                  ),
-                ),
+                child: const Icon(Icons.refresh, size: 35),
               )
             ],
           ));
@@ -316,6 +292,7 @@ class _ReviewTab extends StatelessWidget {
               _refreshController.loadComplete();
             },
             child: ListView.builder(
+              padding: const EdgeInsets.only(top: 10),
               itemCount: reviews.length,
               itemBuilder: (context, index) {
                 return _ReviewCard(review: reviews[index]);
@@ -342,11 +319,11 @@ class _ReviewCard extends StatelessWidget {
     final dateTime = DateTime.parse(review.updatedAt);
     final date = DateFormat.yMMMMd().add_jm().format(dateTime);
     return Container(
-        margin: EdgeInsets.only(bottom: 25),
-        padding: EdgeInsets.all(12),
+        margin: const EdgeInsets.only(bottom: 25),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
             color: Colors.grey.shade800,
-            borderRadius: BorderRadius.all(Radius.circular(10))),
+            borderRadius: const BorderRadius.all(Radius.circular(10))),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -357,7 +334,8 @@ class _ReviewCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     review.author,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                        fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
                 Text(
@@ -366,7 +344,7 @@ class _ReviewCard extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: 15),
+            const Divider(),
             Text(review.content),
           ],
         ));

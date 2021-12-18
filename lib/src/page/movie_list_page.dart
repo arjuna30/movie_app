@@ -53,16 +53,13 @@ class _BodyMovieListPageState extends State<_BodyMovieListPage> {
                 child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Something wrong'),
-                SizedBox(height: 10),
+                const Text('Something wrong'),
+                const SizedBox(height: 10),
                 GestureDetector(
                   onTap: () => context
                       .read<MovieListBloc>()
                       .add(GetMovieListByGenre(genreId, 1)),
-                  child: const Icon(
-                    Icons.refresh,
-                    size: 35,
-                  ),
+                  child: const Icon(Icons.refresh, size: 35),
                 )
               ],
             ));

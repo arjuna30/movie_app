@@ -34,7 +34,6 @@ class ReviewBloc extends Bloc<ReviewEvent, ReviewState> {
       final movieId = event.movieId;
       final page = event.page;
       final reviews = event.reviews;
-      emit(LoadingReview());
       final newReviews = await _movieRepository.loadMoreReview(movieId, page,
           reviews: reviews);
       emit(SuccessReview(newReviews));
