@@ -66,6 +66,21 @@ class _BodyMovieListPageState extends State<_BodyMovieListPage> {
           }
           if (state is SuccessMovieListState) {
             final movies = state.movies;
+            if (movies.isEmpty) {
+              return SmartRefresher(
+                controller: refreshController,
+                onRefresh: () {
+                  page = 1;
+                  context
+                      .read<MovieListBloc>()
+                      .add(GetMovieListByGenre(genreId, page));
+                  refreshController.refreshCompleted();
+                },
+                child: const Center(
+                  child: Text('No Movie'),
+                ),
+              );
+            }
             return SmartRefresher(
               controller: refreshController,
               enablePullUp: true,
